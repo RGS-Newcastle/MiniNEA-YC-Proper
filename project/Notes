@@ -3,4 +3,5 @@ Problem:
   How to seperate player movement speed and platform movement speed
   
 Solution:
+  Looped through list "wait = [0, 1, 2, 3, 4, 5]" each time everything was updated and only allowed platforms to move when "wait[current] == 0"  
   
