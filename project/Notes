@@ -4,4 +4,20 @@ Problem:
   
 Solution:
   Looped through list "wait = [0, 1, 2, 3, 4, 5]" each time everything was updated and only allowed platforms to move when "wait[current] == 0"  
+
+01/02/2026
+Problem:
+  Platform does not go up after reaching lowest point
+
+Solution:
+  added logic to show direction platform should go. "plat_direction = 1 or -1"
+
+
+03/02/2026
+Problem:
+  Platform moves before player does
+
+Solution:
+  ?????
+
   
