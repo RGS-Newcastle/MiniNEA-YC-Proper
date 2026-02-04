@@ -15,7 +15,7 @@ ycoordPlayer = 2
 
 # platform data
 
-platfromy = [21, 32, 43, 54, 64]
+platfromy = [21, 31, 42, 54, 64]
 platfromx = 66
 ycoordPlat = 0
 
@@ -240,6 +240,25 @@ plat_direction = 1  # 1 for down, -1 for up
 
 # main loop
 while True:
+
+    # Moving platform logic
+    if wait[currentWait] == 0 and plat_direction == 1:
+        plat_values["y"] = platfromy[ycoordPlat + 1]
+        ycoordPlat += 1   
+
+    elif wait[currentWait] == 0 and plat_direction == -1:
+        plat_values["y"] = platfromy[ycoordPlat - 1]
+        ycoordPlat -= 1
+
+    
+    if ycoordPlat == 4:
+        plat_direction = -1
+
+    elif ycoordPlat == 0:
+        plat_direction = 1
+
+
+    # Moving player left right logic
     if board.switch_pressed(SWITCH_A):
         if xcoordPlayer > 0:
             player_values["x"] = playerx[xcoordPlayer - 1]
@@ -251,34 +270,17 @@ while True:
             xcoordPlayer += 1
             time.sleep(0.02)
 
-    if playerx[xcoordPlayer] == (plat_values["x"] + 2) and playery[ycoordPlayer] == (plat_values["y"] + 2) and wait[currentWait] == 0 and plat_direction == 1:
+
+    if abs(player_values["x"] - plat_values["x"]) < 5: 
+        player_values["y"] = plat_values["y"] - 8 
+
+
+    if playerx[xcoordPlayer] == (plat_values["x"] + 2) and (playery[ycoordPlayer] == plat_values["y"] + 2 or playery[ycoordPlayer] == plat_values["y"] + 3) and wait[currentWait] == 0 and plat_direction == 1:
         # Move player down with platform
         player_values["y"] = playery[ycoordPlayer - 1]
         ycoordPlayer -= 1
         print(ycoordPlayer)
         print(player_values["y"])
-
-    # keep on screen
-    #player_values["x"] = max(0, min(player_values["x"], WIDTH - 8))
-    #player_values["y"] = max(0, min(player_values["y"], HEIGHT - 8))
-
-    # Moving platform logic
-    if wait[currentWait] == 0 and plat_direction == 1:
-        plat_values["y"] = platfromy[ycoordPlat + 1]
-        ycoordPlat += 1
-
-        
-
-    elif wait[currentWait] == 0 and plat_direction == -1:
-        plat_values["y"] = platfromy[ycoordPlat - 1]
-        ycoordPlat -= 1
-
-
-    if ycoordPlat == 4:
-        plat_direction = -1
-
-    elif ycoordPlat == 0:
-        plat_direction = 1
 
     # Moving player y logic   
     if ycoordPlayer == 0:
@@ -286,7 +288,6 @@ while True:
 
     elif ycoordPlayer == 2:
         player_direction = 1
-
 
 
     #increment wait timer
@@ -298,6 +299,11 @@ while True:
     # draw everything
     display.set_pen(0)
     display.clear()      
+
+    print("----------------------")
+    print(plat_values["y"])
+    print(player_values["y"])
+    print("----------------------")
 
     DrawPlatform()
     DrawPlayer()
