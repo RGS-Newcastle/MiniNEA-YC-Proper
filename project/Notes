@@ -18,6 +18,15 @@ Problem:
   Platform moves before player does
 
 Solution:
-  ?????
+  Reorder logic
+  1. Calculate Platform Position
+  2. Calculate Player position
+
+04/02/2026
+Problem:
+  Player randomly teleports into random positions when moving up and down with the platform
+
+Solution:
+ ????
 
   
