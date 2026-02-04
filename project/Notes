@@ -2,22 +2,22 @@
 #1 Problem:
   How to seperate player movement speed and platform movement speed
   
-Solution:
+Solution: Solved in commit "e82300d89fd255911464bc4baa7cdd69f58be642"
   Looped through list "wait = [0, 1, 2, 3, 4, 5]" each time everything was updated and only allowed platforms to move when "wait[current] == 0"  
 
 01/02/2026
 #1 Problem:
   Platform does not go up after reaching lowest point
 
-Solution:
+Solution: Solved in commit "4bac97be03d99a03e5b6ab0ae1a81c8a1d0ca7e4"
   added logic to show direction platform should go. "plat_direction = 1 or -1"
 
 
 03/02/2026
 #1 Problem:
-  Platform moves before player does
+  Platform moves before player "dc2696bd33eb4ea8367743f04aa4b4bb86fa3e12"
 
-Solution:
+Solution: Solved in commmit Solved in commmit 
   Reorder logic
   1. Calculate Platform Position
   2. Calculate Player position
@@ -27,7 +27,7 @@ Solution:
 #0.5 Problem:
   Platform only moves the player down. Inefficient to copy and paste repeated code for the player to move back up with the platform. Code would also make it difficult to add new y coordinates for the player. 
 
-Solution:
+Solution: Solved in commmit "dc2696bd33eb4ea8367743f04aa4b4bb86fa3e12"
   Added logic which moves the player by keeping it within the confines the platform meaning its y coordinates are dependant on the platforms y coordinates
   
 
@@ -47,7 +47,7 @@ Solution:
         player_values["y"] = playery[ycoordPlayer]"  <----- This line
 
 
-Solution:
+Solution: Solved in commmit  "ce3ac541b91e02e6653e96659ff07482a283a0c6"
   I only make the keeping the player on the platform logic move the sprite and only use the manual updating of the players vertical height to keep track of which platform level the player is currently on. 
 
 
