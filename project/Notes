@@ -47,9 +47,15 @@ Solution: Solved in commmit "dc2696bd33eb4ea8367743f04aa4b4bb86fa3e12"
         player_values["y"] = playery[ycoordPlayer]"  <----- This line
 
 
-Solution: Solved in commmit  "ce3ac541b91e02e6653e96659ff07482a283a0c6"
+Solution: Solved in commmit  "7290381829c361668bfdfe4a09d82b6a87da60cc"
   I only make the keeping the player on the platform logic move the sprite and only use the manual updating of the players vertical height to keep track of which platform level the player is currently on. 
 
+05/02/2026
+#0.5 Problem:
+  Using same set of variables for moving both the platforms does not allow for individual movement in different directions for the platforms
+
+Solution: Solved in commit "28a386a08f474e947f1b01830d2a9bba56ff4e3f" and "1f67bf0344e7e9179419d89abff48aa6d77d5ce1"
+  Created seperate logic and variables for both platforms. *Note*This could be made more efficient at a later date
 
 
   
