@@ -1,4 +1,5 @@
 import time
+import sys
 from gfx_pack import GfxPack, SWITCH_A, SWITCH_B, SWITCH_C, SWITCH_D
 
 # setup
@@ -13,18 +14,22 @@ xcoordPlayer = 1
 ycoordPlayer = 2
 
 # platform data
-platfromy = [11, 21, 31, 42, 54, 64]
+platfromy = [9, 21, 31, 42, 54, 64]
 platfromx = 66
 platformxLeft = 50
 ycoordPlat = 0
 ycoordPlat_left = 4
+
+# stage data
+lower_death_zone = 64
 
 # object values
 player_values = {
     "x": 14,
     "y": 23,
     "width": 8,
-    "height": 8
+    "height": 8,
+    "lives" : 3
 }
 
 plat_values = {
@@ -302,11 +307,11 @@ while True:
             time.sleep(0.02)
 
     # Keeps player on right_platform 
-    if abs(player_values["x"] - plat_values["x"]) < 5: 
+    if abs(player_values["x"] - plat_values["x"]) < 5 and abs((player_values["y"] - plat_values["y"]) < 12): 
         player_values["y"] = plat_values["y"] - 8 
 
     # Keeps player on left_platform
-    if abs(player_values["x"] - plat_values_left["x"]) < 5: 
+    if abs(player_values["x"] - plat_values_left["x"]) < 5 and abs((player_values["y"] - plat_values_left["y"]) < 12): 
         player_values["y"] = plat_values_left["y"] - 8 
 
     # Check if player is on the right_platform
@@ -371,7 +376,7 @@ while True:
         currentWait += 1
     else:
         currentWait = 0
-    
+        
     # draw everything
     display.set_pen(0)
     display.clear()      
