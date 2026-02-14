@@ -314,7 +314,7 @@ plat_direction_left = 1  # 1 for up, -1 for down
 # main loop
 while True:
 
-    # Moving Right_side platform logic ------------------------
+    # Moving Right_side platform logic 
     if wait[currentWait] == 0 and plat_direction == 1:
         plat_values["y"] = platfromy[ycoordPlat + 1]
         ycoordPlat += 1   
