@@ -70,3 +70,9 @@ Solution: Added logic to see if the platform is on same elvation as the player
 
 Solution: Added logic so that the player can only move off if at certain elevations
   
+
+22/02/2026
+#1 Problem
+  No gravity
+
+Solution: created pixel checking system to see if the player is standing on a platform 

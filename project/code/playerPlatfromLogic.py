@@ -298,6 +298,37 @@ def DrawLivesThree():
             if lives_sprite_three[row][col]: #checks for a pixel to be drawn
                 display.pixel(lives_sprite_values_three["x"] + col, lives_sprite_values_three["y"] + row)
 
+def is_on_ground():
+    player_x = player_values["x"]
+    player_y = player_values["y"]
+    player_w = player_values["width"]
+    player_h = player_values["height"]
+    
+    # Check if player is on either platform
+    on_r_plat = abs(player_x - plat_values["x"]) < 5 and abs(player_y - (plat_values["y"] - player_h)) < 4
+    on_l_plat = abs(player_x - plat_values_left["x"]) < 5 and abs(player_y - (plat_values_left["y"] - player_h)) < 4
+    if on_r_plat or on_l_plat:
+        return True
+
+    #checks the row of pixels below the player for a pixel
+    check_y = player_y + player_h 
+    
+    #if the player already at death zone class it as not ground so it dies
+    if check_y >= 64: 
+        return False 
+
+    #check the pixels beneath the player for a pixel if there is one then it is ground and the player can stand on it
+    for col in range(player_w):
+        check_x = player_x + col
+        
+        if 0 <= check_x < 64:
+            if stage_sprite[check_y][check_x] == 1:
+                return True
+        elif 64 <= check_x < 128:
+            if stage_sprite2[check_y][check_x - 64] == 1:
+                return True
+                
+    return False
 
 SPEED = 1
 
@@ -376,13 +407,23 @@ while True:
             xcoordPlayer += 1
             time.sleep(0.02)
 
+    # Gravity
+    if not is_on_ground():
+        player_values["y"] += 5 
+    else:
+        if abs(player_values["x"] - plat_values["x"]) < 5 and abs((player_values["y"] - plat_values["y"]) < 12): 
+            player_values["y"] = plat_values["y"] - 8 
+
+        if abs(player_values["x"] - plat_values_left["x"]) < 5 and abs((player_values["y"] - plat_values_left["y"]) < 12): 
+            player_values["y"] = plat_values_left["y"] - 8
+
     # Keeps player on right_platform 
-    if abs(player_values["x"] - plat_values["x"]) < 5 and abs((player_values["y"] - plat_values["y"]) < 12): 
+    if abs(player_values["x"] - plat_values["x"]) < 10 and abs(player_values["y"] - (plat_values["y"] - 8)) < 4: 
         player_values["y"] = plat_values["y"] - 8 
 
     # Keeps player on left_platform
-    if abs(player_values["x"] - plat_values_left["x"]) < 5 and abs((player_values["y"] - plat_values_left["y"]) < 12): 
-        player_values["y"] = plat_values_left["y"] - 8 
+    if abs(player_values["x"] - plat_values_left["x"]) < 10 and abs(player_values["y"] - (plat_values_left["y"] - 8)) < 4: 
+        player_values["y"] = plat_values_left["y"] - 8
 
     # Check if player is on the right_platform
     player_on_plat_x = playerx[xcoordPlayer] == (plat_values["x"] + 2)
@@ -399,6 +440,7 @@ while True:
     # Check if left_platform is moving up or down in the current cycle
     plat_moving_down_left = (wait[currentWait] == 0) and (plat_direction == 1)
     plat_moving_up_left = (wait[currentWait] == 0) and (plat_direction == -1)
+
 
     # Moving player with right_platform
     if player_on_plat_x and player_on_plat_y:
