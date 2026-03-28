@@ -456,22 +456,22 @@ def DrawLivesThree():
                 display.pixel(lives_sprite_values_three["x"] + col, lives_sprite_values_three["y"] + row)
 
 def is_on_ground():
-    player_x = player_values["x"]
+    player_x = player_values["x"] 
     player_y = player_values["y"]
     player_w = player_values["width"]
     player_h = player_values["height"]
     
-    check_y = player_y + player_h 
+    check_y = player_y + player_h #gives the lowset coordinate of the player sprite
     
     if check_y >= 64: #death zone
         return False 
 
-    for col in range(player_w):
-        check_x = player_x + col
-        if 0 <= check_x < 64:
-            if stage_sprite[check_y][check_x] == 1:
-                return True
-        elif 64 <= check_x < 128:
+    for col in range(player_w): #Goes through each column of the player sprite
+        check_x = player_x + col #This gives the current x coordinate of the pixel that is being checked
+        if 0 <= check_x < 64: #Check if the pixel is on the left half of the stage
+            if stage_sprite[check_y][check_x] == 1: #This runs through the stage sprite and checks if there is a pixel at the current coordinates
+                return True # Returns true if there is a pixe lsignifying that the sprite is on the ground
+        elif 64 <= check_x < 128: #Check if the pixel is on the right half of the stage
             if stage_sprite2[check_y][check_x - 64] == 1: 
                 return True
     return False
@@ -596,7 +596,7 @@ game_running = True
 while True:
     if game_running:
         # Check if player is on platforms
-        on_right_plat = (abs(player_values["x"] - plat_values["x"]) < 12) and (abs((plat_values["y"] - 8) - player_values["y"]) < 5)
+        on_right_plat = (abs(player_values["x"] - plat_values["x"]) < 12) and (abs((plat_values["y"] - 8) - player_values["y"]) < 5) #Check to see if the player is close to the platform in the x direction and y direction
 
         on_left_plat = (abs(player_values["x"] - plat_values_left["x"]) < 12) and (abs((plat_values_left["y"] - 8) - player_values["y"]) < 5)
 
@@ -642,9 +642,9 @@ while True:
                 player_values["y"] += (plat_values["y"] - old_plat_y)
 
         if ycoordPlat == 5:
-            plat_direction = -1
+            plat_direction = -1 # Changes direction of platform movement when it gets to the top
         elif ycoordPlat == 0:
-            plat_direction = 1
+            plat_direction = 1 # Changes direction of platform movement when it gets to the bottom
 
 
         # Moving Left side Platform logic
@@ -667,10 +667,10 @@ while True:
         
         
         # Keeps the player locked to the platfomr
-        if on_right_plat:
-            player_values["y"] = plat_values["y"] - 8
-        elif on_left_plat:
-            player_values["y"] = plat_values_left["y"] - 8
+        #if on_right_plat:
+            #player_values["y"] = plat_values["y"] - 8
+        #elif on_left_plat:
+            #player_values["y"] = plat_values_left["y"] - 8
 
 
         # Movement restrictions
@@ -712,11 +712,10 @@ while True:
 
 
         # player death
-        # if player goes off top or bottom of screen
-        if player_values["y"] > 60 or player_values["y"] < 0:
+        if player_values["y"] > 60 or player_values["y"] < 0: #Checks if player is in deathzone
             print("Player death")
             player_values["lives"] -= 1
-            player_values["x"] = 14
+            player_values["x"] = 14 #reset player to starting coords
             player_values["y"] = 23
             time.sleep(0.5) 
 
