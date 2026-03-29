@@ -10,8 +10,6 @@ WIDTH, HEIGHT = display.get_bounds()
 # player data
 playerx = [14, 24, 34, 52, 68, 86, 96, 106]
 playery = [46, 34, 23]
-xcoordPlayer = 1 # index for player x coordinate list
-ycoordPlayer = 2 # index for player y coordinate list
 
 class Player:
     def __init__(self, x_list, y_list, x_index, y_index, lives, sprite):
