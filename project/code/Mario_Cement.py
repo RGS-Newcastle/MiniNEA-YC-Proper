@@ -15,12 +15,12 @@ ycoordPlayer = 2 # index for player y coordinate list
 
 class Player:
     def __init__(self, x_list, y_list, x_index, y_index, lives, sprite):
-        self.x_list = x_list
-        self.y_list = y_list
-        self.x_index = x_index
-        self.y_index = y_index
-        self.y = y_list[y_index]
-        self.x = x_list[x_index]
+        self._x_list = x_list
+        self._y_list = y_list
+        self._x_index = x_index
+        self._y_index = y_index
+        self.y = self._y_list[self._y_index]
+        self.x = self._x_list[self._x_index]
         self.lives = lives
         self.sprite = sprite
         self.width = 8
@@ -28,10 +28,10 @@ class Player:
 
     def get_posx(self):
         # Returns the coordinates of the player
-        return self.x_list[self.x_index]
+        return self._x_list[self._x_index]
     
     def get_posy(self):
-        return self.y_list[self.y_index]
+        return self._y_list[self._y_index]
 
     def get_dimensions(self):
         # Returns the dimensions of the player sprite
@@ -39,18 +39,18 @@ class Player:
 
     def move(self, x):
         # increment X index and prevents going off-screen
-        new_x = self.x_index + x
+        new_x = self._x_index + x
         if 0 <= new_x < 8:
-            self.x_index = new_x
+            self._x_index = new_x
 
 
     def reset_position(self):
         # Used when player dies
-        self.x_index = 1
+        self._x_index = 1
         self.y = 23
 
     def draw(self, display):
-        x, y = self.x_list[self.x_index], self.y
+        x, y = self._x_list[self._x_index], self.y
         display.set_pen(15)
         for row in range(len(self.sprite)):
             for col in range(len(self.sprite[row])):
