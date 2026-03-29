@@ -487,8 +487,6 @@ def DrawLivesThree():
 
 def is_on_ground():
     player_x, player_y = mario.get_posx(), mario.get_posy()
-    player_x = player_x
-    player_y = player_y
     player_w, player_h = mario.get_dimensions()
 
     check_y = player_y + player_h #gives the lowset coordinate of the player sprite
