@@ -1,6 +1,6 @@
 import time
 import sys
-from gfx_pack import GfxPack, SWITCH_A, SWITCH_B, SWITCH_C, SWITCH_D
+from gfx_pack import GfxPack, SWITCH_A, SWITCH_B
 
 # setup
 board = GfxPack()
@@ -10,8 +10,8 @@ WIDTH, HEIGHT = display.get_bounds()
 # player data
 playerx = [14, 24, 34, 52, 68, 86, 96, 106]
 playery = [46, 34, 23]
-xcoordPlayer = 1
-ycoordPlayer = 2
+xcoordPlayer = 1 # index for player x coordinate list
+ycoordPlayer = 2 # index for player y coordinate list
 
 class Player:
     def __init__(self, x_list, y_list, x_index, y_index, lives, sprite):
@@ -19,27 +19,38 @@ class Player:
         self.y_list = y_list
         self.x_index = x_index
         self.y_index = y_index
+        self.y = y_list[y_index]
+        self.x = x_list[x_index]
         self.lives = lives
         self.sprite = sprite
+        self.width = 8
+        self.height = 8
 
-    def get_pos(self):
+    def get_posx(self):
         # Returns the coordinates of the player
-        return self.x_list[self.x_index], self.y_list[self.y_index]
+        return self.x_list[self.x_index]
+    
+    def get_posy(self):
+        return self.y_list[self.y_index]
+
+    def get_dimensions(self):
+        # Returns the dimensions of the player sprite
+        return self.width, self.height
 
     def move(self, x):
         # increment X index and prevents going off-screen
         new_x = self.x_index + x
-        if 0 <= new_x < 7:
+        if 0 <= new_x < 8:
             self.x_index = new_x
 
 
     def reset_position(self):
         # Used when player dies
         self.x_index = 1
-        self.y_index = 2
+        self.y = 23
 
     def draw(self, display):
-        x, y = self.get_pos()
+        x, y = self.x_list[self.x_index], self.y
         display.set_pen(15)
         for row in range(len(self.sprite)):
             for col in range(len(self.sprite[row])):
@@ -368,10 +379,10 @@ sand_in_bot_right = []
 
 def DrawPlatform():
     display.set_pen(15)
-    for row in range(plat_values["height"]):
-        for col in range(plat_values["width"]):
+    for row in range(plat_values["height"]): #iterate through rows
+        for col in range(plat_values["width"]): #iterate through colums
             if plat_sprite[row][col]: #checks for a pixel to be drawn
-                display.pixel(plat_values["x"] + col, plat_values["y"] + row)
+                display.pixel(plat_values["x"] + col, plat_values["y"] + row) #this draws the pixels in the corrct coordinates
 
 def DrawPlatform2():
     display.set_pen(15)
@@ -475,11 +486,11 @@ def DrawLivesThree():
                 display.pixel(lives_sprite_values_three["x"] + col, lives_sprite_values_three["y"] + row)
 
 def is_on_ground():
-    player_x = player_values["x"] 
-    player_y = player_values["y"]
-    player_w = player_values["width"]
-    player_h = player_values["height"]
-    
+    player_x, player_y = mario.get_posx(), mario.get_posy()
+    player_x = player_x
+    player_y = player_y
+    player_w, player_h = mario.get_dimensions()
+
     check_y = player_y + player_h #gives the lowset coordinate of the player sprite
     
     if check_y >= 64: #death zone
@@ -528,14 +539,14 @@ def update_sand():
                     sand_in_top_left.append(sand)
                     active_sand.remove(sand)
                 else:
-                    player_values["lives"] -= 1 # Overflow
+                    mario.lives -= 1 # Overflow
                     active_sand.remove(sand)
             elif sand["x"] > 64 and not hopper_right_open:
                 if len(sand_in_top_right) < 3:
                     sand_in_top_right.append(sand)
                     active_sand.remove(sand)
                 else:
-                    player_values["lives"] -= 1 # Overflow
+                    mario.lives -= 1 # Overflow
                     active_sand.remove(sand)
 
         
@@ -545,14 +556,14 @@ def update_sand():
                     sand_in_bot_left.append(sand)
                     active_sand.remove(sand)
                 else:
-                    player_values["lives"] -= 1 # Overflow
+                    mario.lives -= 1 # Overflow
                     active_sand.remove(sand)
             elif sand["x"] > 64 and not hopper_right2_open:
                 if len(sand_in_bot_right) < 3:
                     sand_in_bot_right.append(sand)
                     active_sand.remove(sand)
                 else:
-                    player_values["lives"] -= 1 # Overflow
+                    mario.lives -= 1 # Overflow
                     active_sand.remove(sand)
 
         
@@ -619,7 +630,7 @@ while True:
     if game_running: # Checks in the game is still running
 
         # Get player values
-        playerx, playery = mario.get_pos()
+        playerx, playery = mario.get_posx(), mario.y
 
         # Check if player is on platforms
         on_right_plat = (abs(playerx - plat_values["x"]) < 12) and (abs((plat_values["y"] - 8) - playery) < 5) #Check to see if the player is close to the platform in the x direction and y direction
@@ -694,21 +705,21 @@ while True:
         
         # Keeps the player locked to the platfomr
         if on_right_plat:
-            playery = plat_values["y"] - 8
+            mario.y = plat_values["y"] - 8
         elif on_left_plat:
-            playery = plat_values_left["y"] - 8
+            mario.y = plat_values_left["y"] - 8
 
 
         # Horizontal movement logic
-    if board.switch_pressed(SWITCH_A):
-        mario.move(-1)
-    if board.switch_pressed(SWITCH_B):
-        mario.move(1)
+        if board.switch_pressed(SWITCH_A):
+            mario.move(-1) # calls the move method in the player class to move the player left when A is pressed
+        if board.switch_pressed(SWITCH_B):
+            mario.move(1) # calls the move method in the player class to move the player right when B is pressed
 
         # Gravity and ground Check
         if not on_right_plat and not on_left_plat:
             if not is_on_ground():
-                playery += 5 # Increases the players y coordinate so it falls
+                mario.y += 5 # Increases the players y coordinate so it falls
 
 
         #increment wait timer
@@ -722,7 +733,7 @@ while True:
         if playery > 60 or playery < 0: #Checks if player is in deathzone
             print("Player death")
             mario.lives -= 1
-            mario.reset_position()
+            mario.reset_position() # Calls method in player class to reset marios position
             time.sleep(0.5) 
 
         update_sand()
