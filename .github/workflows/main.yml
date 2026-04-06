@@ -1,170 +1,195 @@
-name: Markdown to PDF
-on:
-  workflow_dispatch:
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { exec } from 'node:child_process';
+import { promisify } from 'node:util';
 
-jobs:
-  convert:
-    runs-on: ubuntu-latest
-      
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xfonts-75dpi xfonts-base pandoc jq
-          wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
-          sudo dpkg -i libssl1.1_1.1.0g-2ubuntu4_amd64.deb
-          sudo apt-get install -f
-          wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
-          sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
-          sudo apt-get -f install
+const execAsync = promisify(exec);
 
-      - name: Download GitHub Markdown CSS
-        run: |
-          wget -O github-markdown.css https://raw.githubusercontent.com/sindresorhus/github-markdown-css/refs/heads/main/github-markdown.css
+// The inline CSS from your workflow
+const customCssOverrides = `
+<style>
+    /* FULL-WIDTH OVERRIDES */
+    body {
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .markdown-body {
+      box-sizing: border-box;
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 15mm !important;
+    }
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+    @media print {
+      .markdown-body {
+        padding: 0 !important;
+      }
+    }
 
-      - name: Convert Markdown to PDF with GitHub styling
-        run: |
-          mkdir -p pdf_output
-          for mdfile in *.md; do
-            [[ "$mdfile" == "README.md" ]] && continue
-            [[ -s "$mdfile" ]] || continue
-            
-            base_name="$(basename "$mdfile" .md)"
-            htmlname="${base_name}.html"
-            pdfname="pdf_output/${base_name}.pdf"
-            
-            # Create temporary CSS and HTML snippet files
-            echo '<link rel="stylesheet" href="github-markdown.css">' > header_link.html
-            
-            echo '<style>
-                /* FULL-WIDTH OVERRIDES */
-                body {
-                  width: 100% !important;
-                  max-width: none !important;
-                  margin: 0 !important;
-                  padding: 0 !important;
-                }
-                .markdown-body {
-                  box-sizing: border-box;
-                  width: 100% !important;
-                  max-width: none !important;
-                  margin: 0 !important;
-                  padding: 15mm !important;
-                }
-                @page {
-                  size: A4;
-                  margin: 10mm;
-                }
-                @media print {
-                  .markdown-body {
-                    padding: 0 !important;
-                  }
-                }
-            
-                /* CODE BLOCK STYLING */
-                .markdown-body pre,
-                .markdown-body code,
-                .hljs {
-                  white-space: pre-wrap !important;
-                  word-wrap: break-word !important;
-                  overflow-wrap: anywhere !important;
-                  overflow: hidden !important;
-                  page-break-inside: avoid;
-                  -ms-overflow-style: none !important;
-                  scrollbar-width: none !important;
-                }
-                .markdown-body pre::-webkit-scrollbar {
-                  display: none !important;
-                  width: 0 !important;
-                  height: 0 !important;
-                }
-            
-                /* TABLES - FULL WIDTH & PAGE BREAK CONTROL */
-                .markdown-body table {
-                  width: 100% !important;
-                  max-width: 100% !important;
-                  border-collapse: collapse;
-                  page-break-inside: auto !important;
-                  margin-bottom: 16px !important;
-                }
-                .markdown-body tr {
-                  page-break-inside: avoid !important;
-                  page-break-after: auto !important;
-                  background-color: #fff;
-                  border-top: 1px solid #c6cbd1;
-                }
-                .markdown-body tr:nth-child(2n) {
-                  background-color: #f6f8fa;
-                }
-                .markdown-body th,
-                .markdown-body td {
-                  border: 1px solid #dfe2e5;
-                  padding: 6px 13px;
-                  word-break: break-word !important;
-                  page-break-inside: avoid !important;
-                }
-                .markdown-body thead {
-                  display: table-header-group !important;
-                }
-                .markdown-body thead tr {
-                  background-color: #f6f8fa !important;
-                }
-                /* Optional: For cells that MUST break */
-                .markdown-body td.force-break {
-                  page-break-inside: auto !important;
-                }
-            
-                /* IMAGES */
-                .markdown-body img {
-                  max-width: 100%;
-                  height: auto;
-                }
-                .markdown-body a {
-                  color: #0366d6;
-                  text-decoration: underline;
-                }
-            </style>' > header_style.html
-              
-            echo '<div class="markdown-body">' > body_open.html
-            echo '</div>' > body_close.html
-            
-            # Convert Markdown to HTML and save it
-            pandoc "$mdfile" -f markdown -t html -s -o "$htmlname" \
-              --include-in-header=header_link.html \
-              --include-in-header=header_style.html \
-              --resource-path=".:./Images:./Images/Survey Qs" \
-              --wrap=preserve \
-              --embed-resources \
-              --standalone \
-              -B body_open.html \
-              -A body_close.html
-              
-            # Convert HTML to PDF
-            wkhtmltopdf --enable-local-file-access \
-              --enable-external-links \
-              --enable-internal-links \
-              --margin-top 10mm --margin-bottom 15mm --margin-left 10mm --margin-right 10mm \
-              --page-size A4 \
-              --zoom 1.0 \
-              --footer-center "[page]/[topage]" \
-              --footer-font-size 10 \
-              "$htmlname" "$pdfname" || echo "PDF conversion failed for $mdfile"
-            
-            # Clean up temporary files (but keep the HTML file)
-            rm header_link.html header_style.html body_open.html body_close.html
-          done
-          
-      - name: Commit and push generated files
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add pdf_output/
-          git commit -m "Update generated PDFs" || echo "No changes to commit"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    /* CODE BLOCK STYLING */
+    .markdown-body pre,
+    .markdown-body code,
+    .hljs {
+      white-space: pre-wrap !important;
+      word-wrap: break-word !important;
+      overflow-wrap: anywhere !important;
+      overflow: hidden !important;
+      page-break-inside: avoid;
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+    .markdown-body pre::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    /* TABLES - FULL WIDTH & PAGE BREAK CONTROL */
+    .markdown-body table {
+      width: 100% !important;
+      max-width: 100% !important;
+      border-collapse: collapse;
+      page-break-inside: auto !important;
+      margin-bottom: 16px !important;
+    }
+    .markdown-body tr {
+      page-break-inside: avoid !important;
+      page-break-after: auto !important;
+      background-color: #fff;
+      border-top: 1px solid #c6cbd1;
+    }
+    .markdown-body tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+    .markdown-body th,
+    .markdown-body td {
+      border: 1px solid #dfe2e5;
+      padding: 6px 13px;
+      word-break: break-word !important;
+      page-break-inside: avoid !important;
+    }
+    .markdown-body thead {
+      display: table-header-group !important;
+    }
+    .markdown-body thead tr {
+      background-color: #f6f8fa !important;
+    }
+    .markdown-body td.force-break {
+      page-break-inside: auto !important;
+    }
+
+    /* IMAGES */
+    .markdown-body img {
+      max-width: 100%;
+      height: auto;
+    }
+    .markdown-body a {
+      color: #0366d6;
+      text-decoration: underline;
+    }
+</style>
+`;
+
+console.log('Starting Markdown to PDF conversion...');
+
+// 1. Download GitHub Markdown CSS
+console.log('Downloading github-markdown.css...');
+const cssResponse = await fetch('https://raw.githubusercontent.com/sindresorhus/github-markdown-css/refs/heads/main/github-markdown.css');
+if (!cssResponse.ok) throw new Error(`Failed to fetch CSS: ${cssResponse.statusText}`);
+await fs.writeFile('github-markdown.css', await cssResponse.text());
+
+// 2. Prepare Output Directory and Temp Files
+const outputDir = 'pdf_output';
+await fs.mkdir(outputDir, { recursive: true });
+
+// We only need to create these template files once, rather than inside the loop
+await fs.writeFile('header_link.html', '<link rel="stylesheet" href="github-markdown.css">');
+await fs.writeFile('header_style.html', customCssOverrides);
+await fs.writeFile('body_open.html', '<div class="markdown-body">');
+await fs.writeFile('body_close.html', '</div>');
+
+// 3. Process Markdown Files
+const files = await fs.readdir('.');
+const mdFiles = files.filter(file => file.endsWith('.md'));
+
+for (const file of mdFiles) {
+    if (file === 'README.md') continue;
+
+    const stats = await fs.stat(file);
+    if (stats.size === 0) continue; // Skip empty files
+
+    const baseName = path.basename(file, '.md');
+    const htmlName = `${baseName}.html`;
+    const pdfName = path.join(outputDir, `${baseName}.pdf`);
+
+    console.log(`Processing: ${file} -> ${pdfName}`);
+
+    try {
+        // Convert Markdown to HTML using Pandoc
+        const pandocCmd = `pandoc "${file}" -f markdown -t html -s -o "${htmlName}" \
+            --include-in-header=header_link.html \
+            --include-in-header=header_style.html \
+            --resource-path=".:./Images:./Images/Survey Qs" \
+            --wrap=preserve \
+            --embed-resources \
+            --standalone \
+            -B body_open.html \
+            -A body_close.html`;
+        
+        await execAsync(pandocCmd);
+
+        // Convert HTML to PDF using wkhtmltopdf
+        const wkhtmlCmd = `wkhtmltopdf --enable-local-file-access \
+            --enable-external-links \
+            --enable-internal-links \
+            --margin-top 10mm --margin-bottom 15mm --margin-left 10mm --margin-right 10mm \
+            --page-size A4 \
+            --zoom 1.0 \
+            --footer-center "[page]/[topage]" \
+            --footer-font-size 10 \
+            "${htmlName}" "${pdfName}"`;
+        
+        await execAsync(wkhtmlCmd);
+        
+        // Clean up the generated HTML file (optional, matching your workflow)
+        // await fs.unlink(htmlName); 
+
+    } catch (error) {
+        console.error(`❌ Failed processing ${file}:`, error.message);
+    }
+}
+
+// 4. Clean up temporary header/body files
+console.log('Cleaning up temporary files...');
+await Promise.all([
+    fs.unlink('header_link.html'),
+    fs.unlink('header_style.html'),
+    fs.unlink('body_open.html'),
+    fs.unlink('body_close.html')
+]).catch(() => console.warn('Note: Some temporary files could not be removed.'));
+
+// 5. Commit and Push (Optional: Remove if running locally outside of CI)
+console.log('Committing to Git...');
+try {
+    await execAsync('git config --global user.name "github-actions[bot]"');
+    await execAsync('git config --global user.email "github-actions[bot]@users.noreply.github.com"');
+    await execAsync(`git add ${outputDir}/`);
+    await execAsync('git commit -m "Update generated PDFs"');
+    await execAsync('git push');
+    console.log('✅ Changes pushed successfully.');
+} catch (error) {
+    // Git exits with an error code if there's nothing to commit
+    if (error.stdout.includes('nothing to commit')) {
+        console.log('No changes to commit.');
+    } else {
+        console.error('Git operation failed (this is normal if not in a Git repository):', error.message);
+    }
+}
+
+console.log('🎉 Workflow complete!');
