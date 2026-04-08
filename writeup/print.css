@@ -1,0 +1,47 @@
+@page {
+  size: A4;
+  margin: 18mm 15mm 18mm 15mm;
+
+  @top-left {
+    content: "NEA Title";
+    font-size: 10px;
+  }
+
+  @top-center {
+    content: "Student Name";
+    font-size: 10px;
+  }
+
+  @top-right {
+    content: "Exam Code";
+    font-size: 10px;
+  }
+
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 10px;
+  }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 11pt;
+  line-height: 1.4;
+}
+
+h1, h2, h3, h4 {
+  page-break-after: avoid;
+}
+
+pre, blockquote, table, img {
+  page-break-inside: avoid;
+}
+
+code, pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+img {
+  max-width: 100%;
+}
