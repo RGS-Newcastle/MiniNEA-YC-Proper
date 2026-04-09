@@ -7,16 +7,16 @@
 # Table of Contents
 [TOC]
 ## Analysis
-<!-- @import "./Analysis.md" -->
+<!-- @import "./1. Analysis.md" -->
 
 ## Documented Design
-<!-- @import "./Documented Design.md" -->
+<!-- @import "./2. Documented Design.md" -->
 
 ## Technical Solution
-<!-- @import "./Technical Solutions.md" -->
+<!-- @import "./3. Technical Solutions.md" -->
 
 ## Testing
-<!-- @import "./Testing.md" -->
+<!-- @import "./4. Testing.md" -->
 
 ## Evaluation
-<!-- @import "./Evaluation.md" -->
+<!-- @import "./5. Evaluation.md" -->
