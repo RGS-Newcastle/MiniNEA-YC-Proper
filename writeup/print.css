@@ -1,3 +1,25 @@
+
+table {
+    border-collapse: collapse; 
+    width: 100%;
+    margin: 15px 0;
+    border: 1.5pt solid black;
+}
+
+th, td {
+    border: 1pt solid black; 
+    padding: 8px;
+    text-align: left;
+    word-break: normal;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+
+
 @page {
   size: A4;
   margin: 18mm 15mm 18mm 15mm;
@@ -45,3 +67,4 @@ code, pre {
 img {
   max-width: 100%;
 }
+
