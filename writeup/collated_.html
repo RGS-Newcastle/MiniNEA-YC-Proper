@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>collated_.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="mini-nea-project-title">Mini NEA Project Title</h1>
+<p><strong>Candidate Name:</strong> Yu-Chen Chiu
+<strong>Candidate Number:</strong> 1234<br>
+<strong>Centre Number:</strong> 39253</p>
+<h1 id="table-of-contents">Table of Contents</h1>
+<ul>
+<li><a href="#mini-nea-project-title">Mini NEA Project Title</a></li>
+<li><a href="#table-of-contents">Table of Contents</a>
+<ul>
+<li><a href="#analysis">Analysis</a></li>
+<li><a href="#about-the-nintendo-game--watch">About the Nintendo Game &amp; Watch</a></li>
+<li><a href="#primary-user">Primary User</a></li>
+<li><a href="#research">Research</a>
+<ul>
+<li><a href="#from-the-data">From the data</a></li>
+</ul>
+</li>
+<li><a href="#research-of-game-and-watch-games">Research of Game and Watch games</a>
+<ul>
+<li><a href="#marios-cement-factory">Marios Cement Factory</a></li>
+<li><a href="#zelda">Zelda</a></li>
+</ul>
+</li>
+<li><a href="#deeper-dive-into-marios-cement-factory">Deeper dive into Marios Cement Factory</a></li>
+<li><a href="#approaching-creating-the-game">Approaching creating the game</a></li>
+<li><a href="#modelling">Modelling</a></li>
+<li><a href="#documented-design">Documented Design</a></li>
+<li><a href="#interface-breakdown">Interface breakdown</a></li>
+<li><a href="#main-game-loops">Main game loops</a></li>
+<li><a href="#sub-processes">Sub-processes</a></li>
+<li><a href="#creating-the-sprites">Creating the sprites</a>
+<ul>
+<li><a href="#pixilartcom">pixilart.com</a></li>
+<li><a href="#excel">Excel</a></li>
+</ul>
+</li>
+<li><a href="#user-interface">User interface</a>
+<ul>
+<li><a href="#display">Display</a></li>
+<li><a href="#sprites">Sprites</a></li>
+<li><a href="#player-interaction">Player interaction</a></li>
+</ul>
+</li>
+<li><a href="#algorithms">Algorithms</a>
+<ul>
+<li><a href="#collisiongravity-is_on_ground-algorithm">Collision/Gravity <em>is_on_ground</em> algorithm</a></li>
+<li><a href="#sand-management-update_sand-algoritm">Sand management <em>update_sand</em> algoritm</a></li>
+</ul>
+</li>
+<li><a href="#usage-of-object-oriented-programming">Usage of object oriented programming</a>
+<ul>
+<li><a href="#attributes">Attributes</a></li>
+<li><a href="#methods">Methods</a></li>
+</ul>
+</li>
+<li><a href="#technical-design-choices">Technical Design choices</a></li>
+<li><a href="#ispo-chart">ISPO Chart</a></li>
+<li><a href="#technical-solution">Technical Solution</a></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#evaluation">Evaluation</a></li>
+<li><a href="#objectives-met">Objectives met</a></li>
+<li><a href="#future-improvement">Future improvement</a></li>
+<li><a href="#indpendant-feedback">Indpendant Feedback</a></li>
+<li><a href="#conculsion">Conculsion</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="analysis">Analysis</h2>
+<h2 id="about-the-nintendo-game--watch">About the Nintendo Game &amp; Watch</h2>
+<p><img src="images/GameAndWatch.jpg" alt="GameAndWatch image"></p>
+<p>Game and Watches are a series of games consoles which started being release in 1980. Each console only conatined one game (depending on the model of the device) due to hardware restrictions and the design philosophy (a small protable device) at the time. Also due to these hardware restrictions games orignially were only in black and white due to the LCD screen type it used. Its name &quot;Game and Watch&quot; references its capability to display the time and a certain game. The console first released to great sucess leading to later generations being produced, the latest being the 40th anniversary version which released with colour, and games like the original &quot;legend of Zelda&quot;.</p>
+<h2 id="primary-user">Primary User</h2>
+<p>When looking into starting my project I need to first analyise my potential stackeholders and users that will be interacting with my product. In this case my primary user will be Jazz Guan, whom I will collaberate most with as she is the games target audience.</p>
+<p>Jazz is enthustiastic towords video games in particular games that are esier to grasp, but with a fun gameplay loop which in this case is perfect for the Game and Watch series of consoles/games due to the fact that the hardware limitations of the device placed a threshold on how complicated the games on them could be.</p>
+<p><em>What is your name and age: Jazz Guan, 17</em><br>
+<em>What features do you look for in a game: Easy to grasp basics, Cute art styles, Lore</em><br>
+<em>Recently played games: Silksong, Hades I, Risk of rain II</em><br>
+<em>What experiences are you looking for in a game: Relaxation, Excitation, Taking risks, Power trip</em><br>
+<em>Have you played retro games before: Pong</em><br>
+<em>Other features you might appreciate: Silly/cute stuff</em></p>
+<p>Mr Wilde is also a possible candidate for the use of the device as he has a deep vested intrest towords the history of Computer Games and since the Game and Watch is so significant it would be prefect for him.</p>
+<h2 id="research">Research</h2>
+<h3 id="from-the-data">From the data</h3>
+<p>From my interview with my primary user Jazz I discovered the importance of having easy enough to grasp basics that gradually grows in difficulty. This is also in line with what I observe in the data gathered in a survey that was sent out.<br>
+<img src="images/Q4.png" alt="Survey image"></p>
+<p>In terms of graphics 3D graphics was the most popular, however due to hardware limitations this would be impossible for my project. However the survey still shows a large demand for 2D graphics with a stylistic choice echoed by my interview with Jazz.
+<img src="images/Q8.png" alt="Survey image"></p>
+<p>A large amount of users also said they liked hand held consoles which is appropriate for the project I'm developing.
+<img src="images/Q15.png" alt="Survey image"></p>
+<p>An average gaming session was recorded as being a couple of hours from <strong>50%</strong> of the repsonses. Therefore for my project the gameplay loop needs to be intresting enough for gameplay to not become stale after longer gaming sessions.</p>
+<p>A highly demanded feature was for a  leaderboard with <strong>60%</strong> of users demanding it. This would not be too hard to implement and would further entice users into playing the game more times in order to compete.</p>
+<h2 id="research-of-game-and-watch-games">Research of Game and Watch games</h2>
+<ul>
+<li>In order to find the best suited Game and Watch game for my mini NEA I decided to do a dive into two Game and Watch games:
+<ul>
+<li>Marios Cement Factory</li>
+<li>Zelda (Game and Watch)</li>
+</ul>
+</li>
+</ul>
+<h3 id="marios-cement-factory">Marios Cement Factory</h3>
+<p>In this game the goal is to have mario load cement, which falls from the two opposite ends of the screen, into trucks. In between there are two platforms which move up and down. This introduces an aspect of timing into the game where you need to be on the correct side of the screen at the correct time in order to let the cement through gates into the trucks.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Pros</th>
+<th style="text-align:center">Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Easier to grasp the main idea</td>
+<td style="text-align:center">Less room for skill expression</td>
+</tr>
+<tr>
+<td style="text-align:center">Simplier systems to implement</td>
+<td style="text-align:center">Repetetive gameplayloop can become boring</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 1:</strong> Marios cement factory (1983)
+Purely looking at this games' gameplay loop it may not seem to be the most exciting however the timing of the moving platform and when the cement is delivered can still create some challenge. However where this game excels is that it balances fun to play with a simple enough design as the mechanics are fairly simple. The game can be split into four rough systems: moveable platforms, 2 sets of trapdoors that can open and close, player misses and finally player movement in 4 directions. Therefore we can see that the overall gameplay systems are not too complicated.</p>
+<h3 id="zelda">Zelda</h3>
+<p>This version of &quot;Zelda&quot; has a larger map which is displayed on the upper screen. On the bottom screen the game displays the current map area that Link is in along with the enemies in that area. It's final goal is to beat the 8 dungeons and collect all 8 shards of the TriForce of Wisdom.
+Due to hardware limitations it lacks deep story elements setting it apart from the other mainstream zelda games.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Pros</th>
+<th style="text-align:center">Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">More advanced gameplayloop</td>
+<td style="text-align:center">Uses two screens</td>
+</tr>
+<tr>
+<td style="text-align:center">Larger map area</td>
+<td style="text-align:center">More complicated sprites and systems to implement</td>
+</tr>
+<tr>
+<td style="text-align:center">More interactable mechanics</td>
+<td style="text-align:center">Ai is harder to implement</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 2:</strong> Zelda(1989)
+Looking into this game's systems you can immediatly begin to see that Zelda(1989) is a much more complicated game. The game involves alot more gameplay mechanics with just the player character along having systems for: healing, multiple weapons, an inventory, multiple attack types and movement. Due to the more intricate systedms the game overall can have more replayability as it allows for more variation in gameplay. It also means that there is more room for skill expression which some may find rewarding. However due to the amount of complex systems actually creating the game becomes more difficault due to the amount of subsytems to deal with.</p>
+<p>When comparing the two games ultimatly I need a game which is not just fun but also easier to create, therefore I will choose to do <strong>Mario's Cemenent Factory</strong> as it provides a better balance between simplicity and enjoyability.</p>
+<h2 id="deeper-dive-into-marios-cement-factory">Deeper dive into Marios Cement Factory</h2>
+<p><img src="images/GameAndWatchActual.jpg" alt="GameAndWatchActual"></p>
+<p><strong>Marios Cement Factory</strong> Main gameplay</p>
+<p>The main gameplayloop of this game is that the player, as Mario, moves between two sides of the screen, across different platforms tyring to empty cement into two trucks. The cement must fall through two sets of hoppers. Mario earns <strong>one</strong> point when Marios allows the cement to fall from the upper hopper and <strong>two</strong> points when it falls from the lower one. However each hopper can only hold up to three loads of sand, any overflow will cause Marios and in turn the player a miss. Otherways Mario can earn a miss are: Getting crushed by an elevator platform and reaching bottom of the elevator. There is a section at the bottom of the lift which the player can use to prvent themselves from falling all the way to the bottom. If a player reaches <strong>300</strong> points without a miss, the points will be worth <strong>double</strong> until a miss all misses will also be cleared. The game ends when the player reaches <strong>3</strong> misses.</p>
+<h2 id="approaching-creating-the-game">Approaching creating the game</h2>
+<p>From my understanding of Mario's Cement Factory I will lay out my main goals for the project.</p>
+<p>Goals:</p>
+<ul>
+<li>
+<p>Main objectives:</p>
+<ul>
+<li>
+<p>Create sprites, objective 1</p>
+</li>
+<li>
+<p>Character movement objective 2</p>
+</li>
+<li>
+<p>Falling of character when not on platform objective 3</p>
+</li>
+<li>
+<p>Hoppers</p>
+<ul>
+<li>Interaction with Mario ,opening of hoppers objective 4</li>
+<li>Capacity of 3 sand objective 5</li>
+</ul>
+</li>
+<li>
+<p>Moving platforms</p>
+<ul>
+<li>Mario moves with moving platforms if he is ontop of one objective 6</li>
+<li>Moves at regular intervals objective 7</li>
+</ul>
+</li>
+<li>
+<p>Point systems</p>
+<ul>
+<li>Scoring system objective 8</li>
+<li>Lives objective 9</li>
+<li>Death system when not on a moving platform at the bottom of the elevator objective 10</li>
+<li>Running out of lives end the game and shows a game over screen objective 11</li>
+</ul>
+</li>
+<li>
+<p>Falling of sand objective 12</p>
+</li>
+<li>
+<p>Resetting game when restart button is pressed objective 13</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Acceptable limitations:</p>
+<ul>
+<li>Scoring values doubling once reaching 300 points</li>
+<li>Leaderboard</li>
+<li>Main menu</li>
+</ul>
+</li>
+</ul>
+<h2 id="modelling">Modelling</h2>
+<p><img src="images/GameAndWatchMyModel.png" alt="GameAndWatchMyModel"></p>
+<h2 id="documented-design">Documented Design</h2>
+<p>During the creation of our programs for our Mini NEA we had to record our processes, documenting our thinking processes and solutions for our objectives.</p>
+<h2 id="interface-breakdown">Interface breakdown</h2>
+<p>The interface for my game is fairly simple. As soon as the program is loaded the game starts. When a the player loses all lives it switches to a game over screen. Then at the press of a button the game restarts.</p>
+<p><img src="images/MainFlowChart.png" alt="Description of the image"></p>
+<p><em>Visual flowchart representation</em></p>
+<h2 id="main-game-loops">Main game loops</h2>
+<p>Due to the amount of objects moving on screen at one time. The order the game runs the seperate algorithms for each process in the game is very important.</p>
+<p><img src="images/GameLoop.png" alt="Description of the image"></p>
+<p><em>Visual flowchart Game logic loop</em></p>
+<h2 id="sub-processes">Sub-processes</h2>
+<p><img src="images/Subroutines.png" alt="Description of the image"></p>
+<p>These subprocesses come together to make up the main game loop each solving a problem for my solution.</p>
+<h2 id="creating-the-sprites">Creating the sprites</h2>
+<p>I utilised two pieces of software to create my sprites: <a href="https://www.pixilart.com/">pixilart.com</a> and excel.</p>
+<h3 id="pixilartcom">pixilart.com</h3>
+<p>This is an online website that is dedicated towords the creation of pixel art. I used this create the designs for my sprites. One very useful feature was the custom canvas size thus allowing me to draw my sprites in an area that would be the size of my technical solution's screen. This allowed me to easily think about how large my sprites should be. It also included erase functions for easy tweaks to sprites and a layer function so I could focus on individual sprites or all the pixels as a whole.</p>
+<p><img src="images/pixilArt.png" alt="Description of the image"></p>
+<h3 id="excel">Excel</h3>
+<p>Once I had all my sprites designed I had to find a way to convert them all into a format suitable for storing into a data structure so I could display them on screen. The data structure I decided on was 2D arrays and in them I would store either a 0 (white space) or a 1 (black space). In order to format my sprites designed in pxixilart I used excel.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">I created 4 seperate grids:</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">One where I would type a value of 1 or 0 which would then be converted into their respective colours.</td>
+<td style="text-align:center"><img src="images/Sprite.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">The second grid was just displayed the 1s and 0s.</td>
+<td style="text-align:center"><img src="images/SpriteBinary.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">The third grid groups each row into an array format.</td>
+<td style="text-align:center"><img src="images/Sprite2DArray.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">The fourth grid groups all the 1D arrays into a collective 2D array which I can paste into my code</td>
+<td style="text-align:center"><img src="images/SpriteFormat.png" alt="Description of the image"></td>
+</tr>
+</tbody>
+</table>
+<p>To actually draw the sprites I utilised nested loops to cycle through the 2D arrays displaying a pixel when a 1 was present.</p>
+<h2 id="user-interface">User interface</h2>
+<h3 id="display">Display</h3>
+<p>For this project I used a micro pico device which had a screen size limit of 128 * 64 and was monochrome.
+Therefore I had to design the user interface around this.</p>
+<p><img src="images/MyDesign.jpg" alt="Description of the image"></p>
+<p><em>Done in pixil art</em>
+<em>Note: Play is meant to still live if on a moving platform in the death zone</em></p>
+<p>One limitation of the micro pico screen size that was extremely evident was with my player sprite which was limited to 8x8 therefor I had to create a simplistic yet unique and identifiable design for my player sprite. Another was with the Score displayer which I had to simplify int just &quot;SC&quot; instead of &quot;SCORE&quot; to save space.</p>
+<h3 id="sprites">Sprites</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">name</th>
+<th style="text-align:center">sprite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Stage left</td>
+<td style="text-align:center"><img src="images/StageLeft.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">Stage right</td>
+<td style="text-align:center"><img src="images/StageRight.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">Player character</td>
+<td style="text-align:center"><img src="images/PlayerCharacter.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">Hoppers</td>
+<td style="text-align:center"><img src="images/Hoppers.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">Lives</td>
+<td style="text-align:center"><img src="images/Lives.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">Sand reciever</td>
+<td style="text-align:center"><img src="images/Reciever.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">Sand dispenser</td>
+<td style="text-align:center"><img src="images/Dispenser.png" alt="Description of the image"></td>
+</tr>
+<tr>
+<td style="text-align:center">sand</td>
+<td style="text-align:center"><img src="images/Sand.png" alt="Description of the image"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="player-interaction">Player interaction</h3>
+<p>The human player interacts with the game through the pressing of 2 buttons on the micro pico &quot;SWITCH_A&quot; and &quot;SWITCH_B&quot;. &quot;SWITCH_A&quot; moves the player left and &quot;SWITCH_B&quot; moves it right, &quot;SWITCH_A&quot; also serves as a button to restart the game once it &quot;GAME OVERS&quot;.</p>
+<p>The user is able to track their player through the movement of the 8x8 player sprite. They also have to track the sand in the form of a 14x2 sprite. These stack up to three in hoppers to show the user how full each hopper is.</p>
+<p><img src="images/HopperFull.png" alt="Description of the image"></p>
+<p><em>Top hopper has 2 pieces of sand, bottom hopper has none</em></p>
+<h2 id="algorithms">Algorithms</h2>
+<p>In order to create my technical solution I utilised several algorithms.</p>
+<h3 id="collisiongravity-isonground-algorithm">Collision/Gravity <em>is_on_ground</em> algorithm</h3>
+<p>This algorithm determines if the player is standing on a solid platform pixel and if not applies gravity to the player sprite.</p>
+<ul>
+<li>It takes in the inputs: players coordinates and width along with the array for the stage sprite.</li>
+<li>It outputs True or False depending on if the player is on a platform or not</li>
+</ul>
+<p><strong>Pseudocode</strong></p>
+<p><img src="images/IsOnGround.png" alt="Description of the image"></p>
+<h3 id="sand-management-updatesand-algoritm">Sand management <em>update_sand</em> algoritm</h3>
+<p>This algorithm keeps track of falling sand and sand in hoppers. It manages spawning new sand, sand overflow, sand collision with hoppers and calculating points.</p>
+<ul>
+<li>It takes in the inputs: sand_spawn_timer, sand_spawn_timer, active_sand list, hopper_open states (Left, Right, Top, Bottom), mario.lives, and score.</li>
+<li>It outputs: Updated coordinates for all active sand, updated hopper contents, modified score integer, and mario lives</li>
+</ul>
+<p><img src="images/UpdateSand.png" alt="Description of the image"></p>
+<h2 id="usage-of-object-oriented-programming">Usage of object oriented programming</h2>
+<p>In this project I decided to encapsulate the Player character.</p>
+<p><img src="images/UMLDiagram.png" alt="Description of the image"></p>
+<p><em>UML diagram for player class</em></p>
+<h3 id="attributes">Attributes</h3>
+<p>Coordinate lists: x_list, y_list:<br>
+I decided to use preset coordinates instead of unrestricted movement for the player character. These lists store the exact coordinates the player can go to when the user presses the movement inputs (apart from when on the moving platforms).</p>
+<p>Indicies: x_index, y_index:<br>
+These allow the player sprites coordinates to change by changing the index relative to the lists. It allows the player sprite to move to the next coordinate in the list.</p>
+<p>Lives:<br>
+This starts at 3. It is stored in here so the game can easily check if the player is alive or not.</p>
+<h3 id="methods">Methods</h3>
+<p>Movement Logic: When the user presses a button the move methods check if the index is in the bounds of the coordinate lists. If it is then it invrements or decrements the index to move the player sprite.</p>
+<p>Reset Logics: This method is called after a death. It respawns the player sprite back to its starting coordinates.</p>
+<p>Draw Logic: This method allows the software to interact with the hardware to display the pixels that create the player sprite.</p>
+<p>I decided to use encapsulation on the player class due to a number of factors</p>
+<ul>
+<li>It makes the main game loop more tidy as it groups all the player related code together into a class.</li>
+<li>It also simplifies the main game loop as it hides the complexity of subroutines in the class.</li>
+<li>I would not have to edit anything in the main loop if I wanted to edit a player related subroutine.</li>
+<li>If I wanted to add an extra instance sprite that was similar I could add it very easily. E.g. A second player character or an enemy.</li>
+<li>It also protects certain data such as the indexes so I don't accidently edit them and crash the code.</li>
+</ul>
+<h2 id="technical-design-choices">Technical Design choices</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Choice</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">2D arrays for sprites</td>
+<td style="text-align:center">They are memory efficient and easy to iterate through especially on such limited hardware</td>
+</tr>
+<tr>
+<td style="text-align:center">List of active sands</td>
+<td style="text-align:center">Using dictionaries allows the game to handle a variable amount of sand sprites at once. This means I don't need to code each individual sand.</td>
+</tr>
+<tr>
+<td style="text-align:center">Splitting stage sprite into 2 main parts</td>
+<td style="text-align:center">Makes the stage sprite more manageable and easier to input into excel</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ispo-chart">ISPO Chart</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Type</th>
+<th style="text-align:center">Item</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>INPUT</strong></td>
+<td style="text-align:center">Switches</td>
+<td style="text-align:center">Physical buttons</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">Sprite data</td>
+<td style="text-align:center">2D arrays with 1s and 0s</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>PROCESS</strong></td>
+<td style="text-align:center">Movement Logic</td>
+<td style="text-align:center">Changes index based on user inputs</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">Collision detection</td>
+<td style="text-align:center">Checks if player sprite overlaps with stage sprite</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">Sand logic</td>
+<td style="text-align:center">Calculates sand falling and also hopper collisions and storing</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">Drawing Sprites</td>
+<td style="text-align:center">Iterates through sprite arrays to display pixels</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>STORAGE</strong></td>
+<td style="text-align:center">Player object</td>
+<td style="text-align:center">Instance of player class stores things such as player coordinates lists and indexes</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">Lists</td>
+<td style="text-align:center">Active sand stores variable number of sand, Current wait list used for platform timings</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">Variables</td>
+<td style="text-align:center">Scores, sand_spawn_timer,</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">Constants</td>
+<td style="text-align:center">2D arrays for sprites</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>OUTPUT</strong></td>
+<td style="text-align:center">LCD display</td>
+<td style="text-align:center">monochrome 128x64 displays everything the user can see</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">Scoreboard</td>
+<td style="text-align:center">outputs the score to the user</td>
+</tr>
+</tbody>
+</table>
+<h2 id="technical-solution">Technical Solution</h2>
+<pre class="language-text"><code>EntryNotFound (FileSystemError): Error: ENOENT: no such file or directory, open &#39;c:\Users\Overl\Documents\GitHub\MiniNEA-YC-Proper\writeup\MiniNEA-YC-Proper\writeup\3. Technical Solutions.md&#39;</code></pre>  
+<h2 id="testing">Testing</h2>
+<p>Throughout the process of making the game I made notes while testing my code in order to keep track of bugs so I could resolve them in order to create a smoother more functional experience.</p>
+<p>Goals:</p>
+<ul>
+<li>
+<p>Main objectives:</p>
+<ul>
+<li>
+<p>Create sprites, objective 1</p>
+</li>
+<li>
+<p>Character movement objective 2</p>
+</li>
+<li>
+<p>Falling of character when not on platform objective 3</p>
+</li>
+<li>
+<p>Hoppers</p>
+<ul>
+<li>Interaction with Mario ,opening of hoppers objective 4</li>
+<li>Capacity of 3 sand objective 5</li>
+</ul>
+</li>
+<li>
+<p>Moving platforms</p>
+<ul>
+<li>Mario moves with moving platforms if he is ontop of one objective 6</li>
+<li>Moves at regular intervals objective 7</li>
+</ul>
+</li>
+<li>
+<p>Point systems</p>
+<ul>
+<li>Scoring system objective 8</li>
+<li>Lives objective 9</li>
+<li>Death system when not on a moving platform at the bottom of the elevator objective 10</li>
+<li>Running out of lives end the game and shows a game over screen objective 11</li>
+</ul>
+</li>
+<li>
+<p>Falling of sand objective 12</p>
+</li>
+<li>
+<p>Resetting game when restart button is pressed objective 13</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Acceptable limitations:</p>
+<ul>
+<li>Scoring values doubling once reaching 300 points</li>
+<li>Leaderboard</li>
+<li>Main menu</li>
+</ul>
+</li>
+</ul>
+<p>Test video: <a href="https://youtu.be/LWSg3hDn908">https://youtu.be/LWSg3hDn908</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Stage Sprites</th>
+<th style="text-align:center">Test</th>
+<th style="text-align:center">Passed Y/N</th>
+<th style="text-align:center">Problems</th>
+<th style="text-align:center">Solution</th>
+<th style="text-align:center">Second test pass Y/N</th>
+<th style="text-align:center">Objective</th>
+<th style="text-align:center">Video timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Backdrop</td>
+<td style="text-align:center">Run the game. Move Mario around the platform and allow sand to fall and hoppers to open. Make sure backdrop remains static and unchanged</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">Whole video</td>
+</tr>
+<tr>
+<td style="text-align:center">Platforms Movement</td>
+<td style="text-align:center">Run Game for extended time period. Make sure the platforms are moving at a consistent slow enough speed</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Platform would update it's position every frame this was too fast</td>
+<td style="text-align:center">Implemented a wait timer which only allowed the platform to move at set times</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">whole video</td>
+</tr>
+<tr>
+<td style="text-align:center">Platforms Boundaries</td>
+<td style="text-align:center">Run Game until platforms hit both the top and bottom of their movement range. Make sure platforms reverse movement direction when reaching boundary</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Platforms moved off the screen at the top</td>
+<td style="text-align:center">Solution changed bounds</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">0:12</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Mario</th>
+<th style="text-align:center">Test</th>
+<th style="text-align:center">Passed Y/N</th>
+<th style="text-align:center">Problems</th>
+<th style="text-align:center">Solution</th>
+<th style="text-align:center">Second test pass Y/N</th>
+<th style="text-align:center">Objective</th>
+<th style="text-align:center">Video timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Mario Sprite Left Right Position</td>
+<td style="text-align:center">Press left movement button once. Make sure Mario's sprite moves exactly one position to the left. Repeat for rightside movement</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0:06</td>
+</tr>
+<tr>
+<td style="text-align:center">Mario Sprite Falling Position</td>
+<td style="text-align:center">Place Mario in a position where he is airborne, Make sure his character sprite moves down until it aligns with a platform</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Mario would fall through the platform as he would only stay on the platform if he was in a pixel perfect position</td>
+<td style="text-align:center">Changed the moving platform detection to encompass a small area around the player and moving platform</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0:26</td>
+</tr>
+<tr>
+<td style="text-align:center">Mario Sprite Boundaries</td>
+<td style="text-align:center">Move Mario next to a hopper. Then try to move him into the hopper even more. Make sure Mario's position does not phase into or past the hopper</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0:10</td>
+</tr>
+<tr>
+<td style="text-align:center">Interactions with platforms</td>
+<td style="text-align:center">Place Mario on a moving platform for 25. Make sure Mario moves in sync verticaly with the platform</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Mario would fall through as soon as the platform moved</td>
+<td style="text-align:center">Made Mario teleport the same distance the platform did if he was detected as being on the moving platform. Also changed it so the platform would not move before the player sprite did causing a graphical inconsitensies</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">0:26</td>
+</tr>
+<tr>
+<td style="text-align:center">Mario moving with platforms</td>
+<td style="text-align:center">Place Mario on a moving platform for 25 seconds. Make sure Mario moves with the correct platform</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Mario would randomly teleport to different platforms due to 2 conflicting sections of snapping to platform code, each was fighting to control Marios position</td>
+<td style="text-align:center">Deleted conflicting sections</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">0:26</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Hopper mechanics</th>
+<th style="text-align:center">Test</th>
+<th style="text-align:center">Passed Y/N</th>
+<th style="text-align:center">Problems</th>
+<th style="text-align:center">Solution</th>
+<th style="text-align:center">Second test pass Y/N</th>
+<th style="text-align:center">Objective</th>
+<th style="text-align:center">Video timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Player sprite interactions with hoppers</td>
+<td style="text-align:center">Move Mario next to a hopper. The sand should be allowed to fall through</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Boundaries for how close mario needed be were incorrect</td>
+<td style="text-align:center">Changed bounds</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">01:12</td>
+</tr>
+<tr>
+<td style="text-align:center">Holding of sand</td>
+<td style="text-align:center">Allow the game to run. Do not open hoppers. sand should not fall through the closed hoppers</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">0:09</td>
+</tr>
+<tr>
+<td style="text-align:center">Stacking of sand</td>
+<td style="text-align:center">Allow the game to run. Do not open hoppers. sand sprites should stack one ontop of another</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Sand would just fall into the same y coordinates so you could not see how many there were in a hopper</td>
+<td style="text-align:center">Created a seperate subroutine to draw stacked sand specifically</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">01:21 - 01:36</td>
+</tr>
+<tr>
+<td style="text-align:center">Stacking of sand overfill</td>
+<td style="text-align:center">Allow the game to run. Do not open hoppers. When hopper is holding 4 or more sand the game should end</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">01:43</td>
+</tr>
+<tr>
+<td style="text-align:center">Dispenser hopper's opening timing</td>
+<td style="text-align:center">Allow the game to run. Dispenser hoppers should dispense sand at fixed intervals</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">whole video</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Sand Mechanics</th>
+<th style="text-align:center">Test</th>
+<th style="text-align:center">Passed Y/N</th>
+<th style="text-align:center">Problems</th>
+<th style="text-align:center">Solution</th>
+<th style="text-align:center">Second test pass Y/N</th>
+<th style="text-align:center">Objective</th>
+<th style="text-align:center">Video timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Falling sand</td>
+<td style="text-align:center">Allow the game to run. Make sure the sand sprite moves downwards if it is not in a closed hopper</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">whole video</td>
+</tr>
+<tr>
+<td style="text-align:center">Falling into truck</td>
+<td style="text-align:center">Allow game to run. Allow the sand to fall to the trucks. Make sure the sand sprite is deleted when it hits the truck and score is increased by 1 for each sand</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Sand did not delete early enough</td>
+<td style="text-align:center">Changed bounds for sand deletion</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">01:35</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Stage Hazards</th>
+<th style="text-align:center">Test</th>
+<th style="text-align:center">Passed Y/N</th>
+<th style="text-align:center">Problems</th>
+<th style="text-align:center">Solution</th>
+<th style="text-align:center">Second test pass Y/N</th>
+<th style="text-align:center">Objective</th>
+<th style="text-align:center">Video timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Falling to the bottom of the stage</td>
+<td style="text-align:center">Make sure when Mario reaches the bottom of the stage and is not on a moving platform that he loses a life</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Mario died too early</td>
+<td style="text-align:center">Changed the death zone bounds</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">01:18</td>
+</tr>
+<tr>
+<td style="text-align:center">When life is lost 1 life sprite should be removed</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">10 and 9</td>
+<td style="text-align:center">01:18</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Extra systems</th>
+<th style="text-align:center">Test</th>
+<th style="text-align:center">Passed Y/N</th>
+<th style="text-align:center">Problems</th>
+<th style="text-align:center">Solution</th>
+<th style="text-align:center">Second test pass Y/N</th>
+<th style="text-align:center">Objective</th>
+<th style="text-align:center">Video timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Endgame</td>
+<td style="text-align:center">Run the game until Mario runs out of lives. Screen should switch to game over display</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">11</td>
+<td style="text-align:center">0:52</td>
+</tr>
+<tr>
+<td style="text-align:center">Reset lives</td>
+<td style="text-align:center">Press Switch A once the game over screen is shown. Lives should reset to 3</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">11</td>
+<td style="text-align:center">0:54</td>
+</tr>
+<tr>
+<td style="text-align:center">Reset position</td>
+<td style="text-align:center">Press Switch A once the game over screen is shown. The display should switch to the stage screen, Mario's position should reset to starting coordinates</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">List index conflicted with position so Mario would spawn then immediatly be teleported elsewhere</td>
+<td style="text-align:center">Made sure to reset indexes on death</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">0:54</td>
+</tr>
+</tbody>
+</table>
+<p>In conclusion I managed to fix a number of issues with my code through numerous iterations of it, learning from each failed iteration to improve the overall code.</p>
+<h2 id="evaluation">Evaluation</h2>
+<h2 id="objectives-met">Objectives met</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Objective</th>
+<th style="text-align:center">Achieved Y/N</th>
+<th style="text-align:center">Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Create sprites</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Overall I think this was a success I managed to design sprites and display them on screen in a way that would be possible with my hardware restirictions</td>
+</tr>
+<tr>
+<td style="text-align:center">Character movement</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">I believe I made the correct choice in using preset coordinates for the sprites due to the hardware restrictions as it reduced lag and chance of bugs occuring</td>
+</tr>
+<tr>
+<td style="text-align:center">Falling of character</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">This was done using pixel detection which allowed the sprite to not fall when standing on solid platforms, created gravity simulation for falling character</td>
+</tr>
+<tr>
+<td style="text-align:center">Falling of sand</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Sand fell down due to gravity unless if it was in a hopper</td>
+</tr>
+<tr>
+<td style="text-align:center">Interaction of hoopers with Mario</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">This was completed to a satisfactory level as the hoppers opened in the correct circumstances</td>
+</tr>
+<tr>
+<td style="text-align:center">Capacity of hoppers</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">This was achieved properly as the hopepr could display the amount of sand in it and also would be able to decrease lives if it overflowed</td>
+</tr>
+<tr>
+<td style="text-align:center">Moving platforms</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">This was done to a satsifactory level as the platforms moved at a constant rate and if the player character was on it it would move with the platform.</td>
+</tr>
+<tr>
+<td style="text-align:center">Scoring</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Achieved as when sand falls into recievers 1 is added to the score</td>
+</tr>
+<tr>
+<td style="text-align:center">Death zone</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Player loses life when reaching the bottom of the screen</td>
+</tr>
+</tbody>
+</table>
+<h2 id="future-improvement">Future improvement</h2>
+<p>One main thing I would change if I were to do this again is to encapsulate the sand, hopper and moving platforms not just the player. This would allow me to create instances of these objects easier without having to repeat code. It would also make my main game loop code look much more clean and maintainable. Also to make the code more maintainable I could combine all the sprite drawing functions into one primary one in order to remove repeated code.</p>
+<p>If I could use better hardware I could consider creating mroe detailed sprites along with animations for things such as player sprite running, hopper opening, levers on the hoppers. This would provide a better looking game and user experience. Also I could consider keeping track of high scores.</p>
+<p>For the actual game loop I would consider scoring changes such as bonus points at certain time periods or once a certain score is increased. Or ways to regain lives.</p>
+<h2 id="indpendant-feedback">Indpendant Feedback</h2>
+<p>I asked my brother to play the game and one of his points really stood out to me. I could consider random platform movement timings and also random sand spawning timings.</p>
+<p><em>&quot; I think the game is a bit too easy, I think random sand spawning or platform moving would make it harder. &quot;</em></p>
+<p>I then asked my primary Jazz Guan user for feeback.</p>
+<p><em>&quot; I think animiations would improve my experience, also the movement can feel clunky at times, sometimes it moves too much and sometimes not at all. &quot;</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Feedback</th>
+<th style="text-align:center">My opinion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Random platform movement timings</td>
+<td style="text-align:center">I disagree with this as I believe having predictable platform movement allows for better skill expression. However I what I would add is a set rotation of platform movement timings therefore a skilled player could memorise these patterns and find an optimum way of moving around the stage</td>
+</tr>
+<tr>
+<td style="text-align:center">Random sand spawning timings</td>
+<td style="text-align:center">I agree with this as the spawn time between each sand spawning would still be kept at a reasonable amount of time while adding an aspect of randomness which would force the user to move around the stage faster increasing the difficulty in a meaningful way.</td>
+</tr>
+<tr>
+<td style="text-align:center">Animtations</td>
+<td style="text-align:center">I think this could be done in a relatively simple way by redrawing the sprite during interactions such as movement and hopper openings. This however could also lag the game due to the limited hardware.</td>
+</tr>
+<tr>
+<td style="text-align:center">Clunky movement</td>
+<td style="text-align:center">This I agree with although I believe this may be a hardware limiation as it struggles with processing multiple things at the same time. I could implement this by increase the wait time between actions but this could make the game feel even worse to play</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conculsion">Conculsion</h2>
+<p>Overall I believe I have developed a technical solution that hits the objectives I set out. It achieves the goal of creating a handheld game from the Nintendo Game and Watch (Mario's Cement Factory&quot;). I believe I have created a fun user experience that suits the target audience. I used succesive testing to improve the game removing bugs and improving the smoothness of gameplay while documenting my process in a clear and concise way. It also achieved my own goal in improving my programming skills particularly in object oriented programming. I also learned new python techniques such as list slicing and improved my usage of libraries.</p>
+<p>There are some improvements that I could add in future namely, leaderboad and increasing the difficulty of the game as the user scores more points. However, I believe the final product still fuffills it's intended design albeit lacking some of the polish and robustness a proper game in the proffesinal industry would have.</p>
+
+</body>
+</html>
