@@ -366,9 +366,9 @@ code {
     });
   </script>
 <h1 id="mini-nea-project-title">Mini NEA Project Title</h1>
-<p><strong>Candidate Name:</strong> Yu-Chen Chiu
+<p><strong>Candidate Name:</strong> Your Name<br>
 <strong>Candidate Number:</strong> 1234<br>
-<strong>Centre Number:</strong> 39253</p>
+<strong>Centre Number:</strong> 56789</p>
 <h1 id="table-of-contents">Table of Contents</h1>
 <ul>
 <li><a href="#mini-nea-project-title">Mini NEA Project Title</a></li>
@@ -423,6 +423,25 @@ code {
 <li><a href="#technical-design-choices">Technical Design choices</a></li>
 <li><a href="#ispo-chart">ISPO Chart</a></li>
 <li><a href="#technical-solution">Technical Solution</a></li>
+<li><a href="#display-sprites-function">Display Sprites function</a></li>
+<li><a href="#player">Player</a></li>
+<li><a href="#player-hitbox-detection">Player hitbox detection</a></li>
+<li><a href="#player-death">Player Death</a></li>
+<li><a href="#platform-movement">Platform Movement</a></li>
+<li><a href="#keeping-the-player-on-the-moving-platforms">Keeping the Player on the moving platforms</a></li>
+<li><a href="#preventing-the-player-from-moving-out-of-bounds">Preventing the player from moving out of bounds</a></li>
+<li><a href="#global-timer-system">Global timer system</a></li>
+<li><a href="#initialising-sand">Initialising Sand</a></li>
+<li><a href="#falling-sand-and-hopper-interaction">Falling Sand and hopper interaction</a></li>
+<li><a href="#release-of-sand-from-hoppers">Release of sand from hoppers</a></li>
+<li><a href="#displaying-sand-being-stacked-in-the-hoopers">Displaying sand being stacked in the hoopers</a></li>
+<li><a href="#player-opening-hoppers">Player opening hoppers</a></li>
+<li><a href="#main-game-loop">Main game loop</a>
+<ul>
+<li><a href="#game-over">Game over</a></li>
+</ul>
+</li>
+<li><a href="#programming-techniques-used">Programming techniques used</a></li>
 <li><a href="#testing">Testing</a></li>
 <li><a href="#evaluation">Evaluation</a></li>
 <li><a href="#objectives-met">Objectives met</a></li>
@@ -816,7 +835,112 @@ This starts at 3. It is stored in here so the game can easily check if the playe
 </tbody>
 </table>
 <h2 id="technical-solution">Technical Solution</h2>
-<pre class="language-text"><code>EntryNotFound (FileSystemError): Error: ENOENT: no such file or directory, open &#39;c:\Users\Overl\Documents\GitHub\MiniNEA-YC-Proper\writeup\MiniNEA-YC-Proper\writeup\3. Technical Solutions.md&#39;</code></pre>  
+<p>My program can be divded into multiple parts each one working to solve a specific problem/goal.</p>
+<h2 id="display-sprites-function">Display Sprites function</h2>
+<p>For this I used nested loops to iterate through each column and row of my 2D array containing the data for the sprite.</p>
+<p><img src="images/code/1.png" alt="Code Snippet 1">
+<img src="images/code/2.png" alt="Code Snippet 2"></p>
+<p><em>For each unique sprite I made a draw function like the one above</em></p>
+<p><img src="images/code/3.png" alt="Code Snippet 3"></p>
+<p><em>Each sprites data is stored in a dictionary, see above</em></p>
+<p>Then each main game loop the functions to draw the sprites are called.</p>
+<p><img src="images/code/4.png" alt="Code Snippet 4"></p>
+<p><em>The if statements control how many lives are drawn based on how many lives the user has left</em></p>
+<h2 id="player">Player</h2>
+<p>For the player I decided to encapsulate it into a class and would initialise an instance of it called mario. I made sure that the class would take in all the attributes it needed.</p>
+<p>It takes in:</p>
+<ul>
+<li>list of x coordinates</li>
+<li>list of y coordinates</li>
+<li>indexes for both y and x coordinates</li>
+<li>lives</li>
+<li>sprite data (width, height, 2D array)</li>
+</ul>
+<p>It also creates the attributes</p>
+<ul>
+<li>x and y coordinate, taken from the current index of the lists</li>
+</ul>
+<p><img src="images/code/5.png" alt="Code Snippet 5"></p>
+<p>In here I have created getter and setter methods in order to access privated data so the main game loop and other subroutines can access data such as the current y coordinates of the player character. There is also the reseting position function and the draw function. The reset function reseets the index and y coordinate to the starting values. While the draw function is the same as the other ones for the other sprites.</p>
+<p><img src="images/code/6.png" alt="Code Snippet 6"></p>
+<p><img src="images/code/7.png" alt="Code Snippet 7"></p>
+<p>For the movement I decided to use a predefined set of x coordinates that the player could go to. When the player moves left and right it cycles through the list (by incrementing the index by 1 or -1) containing these positions</p>
+<p><img src="images/code/8.png" alt="Code Snippet 8"></p>
+<p><em>Initialiser for player character object</em></p>
+<h2 id="player-hitbox-detection">Player hitbox detection</h2>
+<p>This subroutine is used keep the player on the static levels in the stage. It utilises pixel overlap detection to detect if the player character is on a solid platform. It takes the lowest y coordinate of the player sprite and then iterates using a condition controlled loop through the 2D array for the stage sprite to see if there is a pixel there.</p>
+<p><img src="images/code/9.png" alt="Code Snippet 9"></p>
+<p><img src="images/code/10.png" alt="Code Snippet 10"></p>
+<p><em>This is in the main game loop and actually creates the gravity falling effect</em></p>
+<h2 id="player-death">Player Death</h2>
+<p><img src="images/code/11.png" alt="Code Snippet 11"></p>
+<p>This is ran at the end of every game loop to check if the player is in the deathzone.</p>
+<h2 id="platform-movement">Platform Movement</h2>
+<p>The two middle platforms also have preset coordinates stored in an array. Then in order to move them I iterate through the y coordinates list.</p>
+<p><img src="images/code/12.png" alt="Code Snippet 12"></p>
+<p>data:</p>
+<ul>
+<li>platformy is the list of possible positions</li>
+<li>platfomx and platformxLeft store the starting coordinates</li>
+<li>ycoordPlat and ycoordPlat_left store the indexes for which coordinate each platform is on</li>
+</ul>
+<p><img src="images/code/13.png" alt="Code Snippet 13"></p>
+<p>This utilises selection to see if the platforms are currently moving up or down and then continue move the platforms in that direction by incrementing the index. Unless they are the at the bottom of the range of y coordinates.</p>
+<p><img src="images/code/14.png" alt="Code Snippet 14"></p>
+<p>Here the direction is changed once the end of the y coordinates list is reached</p>
+<h2 id="keeping-the-player-on-the-moving-platforms">Keeping the Player on the moving platforms</h2>
+<p><img src="images/code/15.png" alt="Code Snippet 15"></p>
+<p>Here I first get the player character objects coordinate values. Then I use to booleans which are set to True if the player characters coordinates are in the close vicinity of the platforms.</p>
+<p><img src="images/code/16.png" alt="Code Snippet 16"></p>
+<p><img src="images/code/17.png" alt="Code Snippet 17"></p>
+<p>This calculates a rough area around the player character to see if it is close to any moving platforms it then moves the player character with a platform if it is near.</p>
+<h2 id="preventing-the-player-from-moving-out-of-bounds">Preventing the player from moving out of bounds</h2>
+<p>In the lower levels undeneath the main platform levels the area the player can move to narrows. However there is a safe zone that you can move but it only exists on the right side. Therefore I utilised a series of selection statements to control which areas the player could move in. I used two seperate variables as my state controls one for left movement and one for right movement. I had to do this as they should be able to move from platform to platform and into the safe zone so locking the player movement completely was not possible.</p>
+<p><img src="images/code/18.png" alt="Code Snippet 18"></p>
+<h2 id="global-timer-system">Global timer system</h2>
+<p>Due to the amount of moving objects in my game I implemented a simple timer system. An array that increments its position variable by 1 each game frame.
+This allows me to dicate at what timings certain events should be able to happen. <em>See platform movement</em></p>
+<p><img src="images/code/19.png" alt="Code Snippet 19"></p>
+<p><img src="images/code/20.png" alt="Code Snippet 20"></p>
+<h2 id="initialising-sand">Initialising Sand</h2>
+<p>For each individual sand spawning I create a dictionary for each of them and append them to a list of currently falling sand. This is so I can easily remove and add sand sprites. Update sand is called once per game loop this starts the whole sand calculation process as other sand related functions are called within this function. This improves the readability of main game loop.</p>
+<p><img src="images/code/21.png" alt="Code Snippet 21"></p>
+<p><img src="images/code/22.png" alt="Code Snippet 22"></p>
+<p>For drawing the sand I used a similar system to drawing the other sprites. However this time I also had it iterate through all the sands in the active sands list.
+<img src="images/code/23.png" alt="Code Snippet 23"></p>
+<h2 id="falling-sand-and-hopper-interaction">Falling Sand and hopper interaction</h2>
+<p>To start with a timer is set to 0 then this increments each frame. When the counter hits 60 a sand sprite is &quot;spawned&quot;. THis is done by appending a dictionary containing the data for x and y coordinates and also the current state it is in.</p>
+<p>Then I use a slice operation on the active_sand list and iterate through this sliced list. I use slicing because if I remove a sand dictionary from active_sand the index number will no longer line up with the original meaning some sand dictionaries will be missed when iterating through the active_sand list. Slicing allows me to iterate through a version of the list which data is not removed from so I will be able to iterate through with the corect index values.</p>
+<p>Then the code detects which hopper the sand is faling through removing the sand dictionary from active_sand and adding it to the hopper's storage list.</p>
+<p>It also calculates overflow so that if the amount of data in the hopper storage list is greater than three a life is lost.</p>
+<p><img src="images/code/24.png" alt="Code Snippet 24"></p>
+<p><em>Note this code is for the upper set of hoppers, it is repeated just with a different set of y coordinates</em></p>
+<h2 id="release-of-sand-from-hoppers">Release of sand from hoppers</h2>
+<p>This subroutine works by having a detection zone around the hopper, which if the player moves close enough (done through a process in the main game loop explaiend below) and there is sand in the hopper list (this is passed in when this subroutine is called from the update_sand subroutine, which allows me to not have to repeat code for all 4 hoppers) the top most sand dictionary is popped. This dictionary is then readded to the active_sand list.</p>
+<p><img src="images/code/25.png" alt="Code Snippet 25"></p>
+<h2 id="displaying-sand-being-stacked-in-the-hoopers">Displaying sand being stacked in the hoopers</h2>
+<p>In order to be able to display the sand stacking I had a seperate subroutine for drawing stacked sand</p>
+<p><img src="images/code/26.png" alt="Code Snippet 26"></p>
+<p>To get the position of each sand to be drawn I use the index of each sand in the list and multiply by 2. &quot;i * 2&quot; this makes the first appear sand at + 0y above the hopper, the second one at + 2y and the third at +4 y.</p>
+<h2 id="player-opening-hoppers">Player opening hoppers</h2>
+<p>This uses the absolute value of the coordinates of the player - the coordinates of the hopper to see if the player is close to the hopper. If it is the hopper open state is set to True. Otherwise the hopper open state is False.</p>
+<p><img src="images/code/27.png" alt="Code Snippet 27"></p>
+<p><em>Note: This is repeated for all 4 hoppers with their respective coordinates</em> The subroutine for releasing sand is called every game loop. <em>See release of sand from hoppers</em></p>
+<p><img src="images/code/28.png" alt="Code Snippet 28"></p>
+<h2 id="main-game-loop">Main game loop</h2>
+<p>The main game loop is contained inside a while loop.</p>
+<p><img src="images/code/29.png" alt="Code Snippet 29"></p>
+<h3 id="game-over">Game over</h3>
+<p>If game_running is false then the main game loop switches to displaying a game over screen.</p>
+<p><img src="images/code/30.png" alt="Code Snippet 30"></p>
+<h2 id="programming-techniques-used">Programming techniques used</h2>
+<ul>
+<li>Selection: Allows me to write code which will only run when certain conditions are met, collision detection, scoring, death zone detection.</li>
+<li>Iteration: Iterating through sprites to display them.</li>
+<li>Encapsulation: Encapsulating the player character. This helps simplify maintenence and the bug fixing of the code.</li>
+<li>Functions: Update sand, is on ground. These allow me to organise the code making it mroe maintainable. It also means I can use code more than once without having to rewrite it every single time I want to utilise it.</li>
+<li>Validation: Used primarily to keep the play in the bounds of the stage prveneting it from moving off screen.</li>
+</ul>
 <h2 id="testing">Testing</h2>
 <p>Throughout the process of making the game I made notes while testing my code in order to keep track of bugs so I could resolve them in order to create a smoother more functional experience.</p>
 <p>Goals:</p>

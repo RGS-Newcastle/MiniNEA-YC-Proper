@@ -13,7 +13,7 @@
 <!-- @import "./2. Documented Design.md" -->
 
 ## Technical Solution
-<!-- @import "./3. Technical Solutions.md" -->
+<!-- @import "./3. Technical Solution.md" -->
 
 ## Testing
 <!-- @import "./4. Testing.md" -->
